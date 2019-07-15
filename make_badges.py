@@ -76,21 +76,32 @@ def print_name_on_badge(img, name, surname,
                         margin_left, margin_top):
     draw = ImageDraw.Draw(img)
 
-    font = ImageFont.truetype(os.path.join(FONTS_PATH, DEFAULT_FONT_NAME), name_font_size)
-    draw.text((margin_left, margin_top), name, fill=(255, 69, 0), font=font)
+    font = ImageFont.truetype(os.path.join(FONTS_PATH, DEFAULT_FONT_NAME),
+                              name_font_size)
+    draw.text((margin_left, margin_top), name,
+              fill=(255, 69, 0), font=font)
 
-    font = ImageFont.truetype(os.path.join(FONTS_PATH, DEFAULT_FONT_NAME), surname_font_size)
-    draw.text((margin_left, margin_top + name_font_size), surname, fill=(255, 69, 0), font=font)
+    font = ImageFont.truetype(os.path.join(FONTS_PATH, DEFAULT_FONT_NAME),
+                              surname_font_size)
+    draw.text((margin_left, margin_top + name_font_size),
+              surname, fill=(255, 69, 0), font=font)
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--path_to_squad_dir", required=True)
-parser.add_argument("--mock_up_name", default=DEFAULT_MOCK_UP_FILE_NAME)
-parser.add_argument("--list_file_name", default=DEFAULT_LIST_FILE_NAME)
-parser.add_argument("--face_margin_from_top", default=DEFAULT_FACE_MARGIN_TOP, type=float)
-parser.add_argument("--face_margin_from_left", default=DEFAULT_FACE_MARGIN_LEFT, type=float)
-parser.add_argument("--name_margin_from_top", default=DEFAULT_TEXT_MARGIN_TOP, type=float)
-parser.add_argument("--name_margin_from_left", default=DEFAULT_TEXT_MARGIN_LEFT, type=float)
+parser.add_argument("--path_to_squad_dir",
+                    required=True)
+parser.add_argument("--mock_up_name",
+                    default=DEFAULT_MOCK_UP_FILE_NAME)
+parser.add_argument("--list_file_name",
+                    default=DEFAULT_LIST_FILE_NAME)
+parser.add_argument("--face_margin_from_top",
+                    default=DEFAULT_FACE_MARGIN_TOP, type=float)
+parser.add_argument("--face_margin_from_left",
+                    default=DEFAULT_FACE_MARGIN_LEFT, type=float)
+parser.add_argument("--name_margin_from_top",
+                    default=DEFAULT_TEXT_MARGIN_TOP, type=float)
+parser.add_argument("--name_margin_from_left",
+                    default=DEFAULT_TEXT_MARGIN_LEFT, type=float)
 
 args = parser.parse_args()
 
