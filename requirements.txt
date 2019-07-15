@@ -1,1 +1,5 @@
 Pillow>5
+future==0.10.0
+pytest==4.0.2
+flake8==3.5.0
+mock==2.0.0
