@@ -1,4 +1,4 @@
-# badges
+# Badges
 Automates badge creation for Summer school
 
 ## Requirements:
