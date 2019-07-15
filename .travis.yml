@@ -14,5 +14,5 @@ install:
   - pip install -r requirements.txt
 #  - pip install .
 
-script: echo 'Ty pidor!'
+script: python make_badges.py --path_to_squad_dir=sample_photo 
 

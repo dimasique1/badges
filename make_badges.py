@@ -41,14 +41,12 @@ def put_photo_on_badge(img, face_img, margin_left, margin_right):
 def create_one_badge(dir_path, mock_up_name, face_pic, name, surname):
     mock_up = os.path.join(dir_path, mock_up_name)
     badge_path = os.path.join(dir_path, u"Badge of " + name + " " + surname)
-    print badge_path
-    face_path = os.path.join(dir_path, face_pic)
     copyfile(mock_up, badge_path)
 
     img = Image.open(badge_path)
     width, height = img.size
 
-    face_img = Image.open(face_path)
+    face_img = Image.open(face_pic)
     face_img = face_img.resize((int(width / 3), int(height / 1.5)))
     face_margin = int(height * DEFAULT_FACE_MARGIN_LEFT)
     put_photo_on_badge(img, face_img,
