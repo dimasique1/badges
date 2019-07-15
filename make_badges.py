@@ -1,8 +1,8 @@
 # This Python file uses the following encoding: utf-8
 import argparse
 import os
-import codecs
 import glob
+import ntpath
 
 from shutil import copyfile
 from PIL import Image
@@ -14,7 +14,7 @@ from PIL import ImageDraw
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 DEFAULT_LIST_FILE_NAME = r'list.txt'
-DEFAULT_MOCK_UP_FILE_NAME = r'mock_up.jpg'
+DEFAULT_MOCK_UP_FILE_NAME = u'mock_up.jpg'
 DEFAULT_FONT_NAME = "l_10646.ttf"
 DEFAULT_TEXT_MARGIN_LEFT = 0.5
 DEFAULT_TEXT_MARGIN_TOP = 0.125
@@ -23,25 +23,13 @@ DEFAULT_FACE_MARGIN_TOP = 0.1
 FONTS_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'fonts')
 
 
-def read_names_from_file(dir_path, file_name):
-    people = []
-    with codecs.open(os.path.join(dir_path, file_name), encoding='utf-8') as f:
-        for line in f:
-            if len(line) > 2:
-                line = line.strip()
-                line = line.split('. ', 1)[-1]
-                people.append(line)
-    return people
+def create_badges(dir_path, mock_up_name):
+    faces = glob.glob(os.path.join(dir_path, u'*.jpg'))
+    if os.path.join(dir_path, mock_up_name) in faces:
+        faces.remove(os.path.join(dir_path, mock_up_name))
 
+    people = [os.path.splitext(ntpath.basename(f))[0] for f in faces]
 
-def create_badges(dir_path, mock_up_name, list_file_name):
-    people = read_names_from_file(dir_path, list_file_name)
-    faces = glob.glob(os.path.join(dir_path,"[0-9]*.jpg"))
-    if len(faces) != len(people):
-        print "INCORRECT INPUT"
-        print people
-        print faces
-        return
     for i in range(len(people)):
         lines = people[i].split(' ')
         create_one_badge(dir_path, mock_up_name, faces[i], lines[1], lines[0])
@@ -53,7 +41,8 @@ def put_photo_on_badge(img, face_img, margin_left, margin_right):
 
 def create_one_badge(dir_path, mock_up_name, face_pic, name, surname):
     mock_up = os.path.join(dir_path, mock_up_name)
-    badge_path = os.path.join(dir_path, name + " " + surname)
+    badge_path = os.path.join(dir_path, u"Badge of " + name + " " + surname)
+    print badge_path
     face_path = os.path.join(dir_path, face_pic)
     copyfile(mock_up, badge_path)
 
@@ -93,8 +82,6 @@ def print_name_on_badge(img, name, surname,
     font = ImageFont.truetype(os.path.join(FONTS_PATH, DEFAULT_FONT_NAME), surname_font_size)
     draw.text((margin_left, margin_top + name_font_size), surname, fill=(255, 69, 0), font=font)
 
-    #img.show()
-
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--path_to_squad_dir", required=True)
@@ -108,7 +95,4 @@ parser.add_argument("--name_margin_from_left", default=DEFAULT_TEXT_MARGIN_LEFT,
 args = parser.parse_args()
 
 
-create_badges(args.path_to_squad_dir, args.mock_up_name, args.list_file_name)
-#read_names_from_file(args.path_to_squad_dir, args.list_file_name)
-#create_one_badge(args.path_to_squad_dir, r'mock_up.jpg',
-#                 '1.jpg', u"Егор Янышев")
+create_badges(args.path_to_squad_dir, args.mock_up_name)
